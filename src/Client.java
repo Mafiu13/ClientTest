@@ -83,11 +83,15 @@ public class Client extends Thread {
 
 
         String message = null;
-        try {
-            message = inputStream.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+        while (message == null) {
+            try {
+                message = inputStream.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
 
+                ////////////ZAMKNIECIE CLIENTSOCKETA JEZELI BRAK ODPOWIEDZI
+
+            }
         }
         return message;
     }
