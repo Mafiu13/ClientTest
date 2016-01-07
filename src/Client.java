@@ -42,11 +42,11 @@ public class Client extends Thread {
             // JPose = -(JPose+5);
 
 
-            for (int i = 1; i <7; i++) {
+            for (int i = 1; i < 7; i++) {
 
                 JPose++;
                 sendIntMessage(JPose);
-                System.out.println("Axis:"+i+":"+ JPose);
+                System.out.println("Axis:" + i + ":" + JPose);
 
 
                 try {
@@ -78,6 +78,7 @@ public class Client extends Thread {
             inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
+
         }
 
 
@@ -98,6 +99,7 @@ public class Client extends Thread {
         try {
             outputStream = new PrintWriter(socket.getOutputStream());
         } catch (IOException e) {
+            System.out.println("blad");
             e.printStackTrace();
         }
 
