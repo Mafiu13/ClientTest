@@ -87,7 +87,11 @@ public class Client extends Thread {
             try {
                 message = inputStream.readLine();
             } catch (IOException e) {
-                e.printStackTrace();
+                try {
+                    socket.close();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
 
                 ////////////ZAMKNIECIE CLIENTSOCKETA JEZELI BRAK ODPOWIEDZI
 
