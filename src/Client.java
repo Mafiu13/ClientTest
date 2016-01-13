@@ -15,6 +15,7 @@ public class Client extends Thread {
     //private PrintWriter outputStream;
     // private BufferedReader inputStream;
     private int JPose = 0;
+    private  String moveCommand = "0";
 
 
     public Client() {
@@ -31,48 +32,6 @@ public class Client extends Thread {
 
     public void run() {
 
-
-        System.out.println(receiveStringMessage());
-        sendStringMessage("Welcome!!!");
-        System.out.println(receiveStringMessage());
-
-
-        while (true) {
-
-            // JPose = -(JPose+5);
-
-
-            for (int i = 1; i < 7; i++) {
-
-                JPose++;
-                sendIntMessage(JPose);
-                System.out.println("Axis:" + i + ":" + JPose);
-
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-
-            }
-
-            System.out.println(receiveStringMessage());
-
-            try {
-                Thread.sleep(5000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
-
-    private String receiveStringMessage() {
-
-
         BufferedReader inputStream = null;
         try {
             inputStream = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -81,6 +40,58 @@ public class Client extends Thread {
 
         }
 
+        System.out.println(receiveStringMessage(inputStream));
+        sendStringMessage("Welcome!!!");
+        System.out.println(receiveStringMessage(inputStream));
+
+
+        while (true) {
+
+            synchronized (this) {
+                for (int i = 1; i < 7; i++) {
+
+                    JPose++;
+                    sendIntMessage(JPose);
+                    System.out.println("Axis"+i+":"+JPose);
+
+                }
+
+                System.out.println(receiveStringMessage(inputStream));
+
+
+            }
+            synchronized (this) {
+                moveCommand = receiveStringMessage(inputStream);
+                System.out.println(moveCommand);
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Integer lol = Integer.parseInt(moveCommand);
+                if (lol == 1) {
+
+                    for (int i = 1; i < 7; i++) {
+
+                        System.out.println("JESTEM WEWNTARZ "+ i);
+                        System.out.println(receiveStringMessage(inputStream));
+
+                    }
+
+                    sendStringMessage("Robot moved to JPOS");
+                    moveCommand="0";
+
+                }
+            }
+
+
+
+        }
+
+
+    }
+
+    private String receiveStringMessage(BufferedReader inputStream) {
 
         String message = null;
         while (message == null) {
