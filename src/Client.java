@@ -60,14 +60,17 @@ public class Client extends Thread {
 
 
             }
+
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             synchronized (this) {
                 moveCommand = receiveStringMessage(inputStream);
                 System.out.println(moveCommand);
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 Integer lol = Integer.parseInt(moveCommand);
                 if (lol == 1) {
 
@@ -78,10 +81,18 @@ public class Client extends Thread {
 
                     }
 
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
                     sendStringMessage("Robot moved to JPOS");
-                    moveCommand="0";
+                    //moveCommand="0";
 
                 }
+
+
             }
 
 
